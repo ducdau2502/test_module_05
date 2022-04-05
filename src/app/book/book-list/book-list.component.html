@@ -1,0 +1,111 @@
+<div class="container">
+  <h1 (click)="getAllBook()">List Books</h1>
+  <tr style="max-width: 1200px">
+    <td><button (click)="openModal()" class="btn btn-primary">Create Book</button></td>
+    <td><h5 style="margin-left: 160px">Có {{books.length}} quyển sách</h5></td>
+  </tr>
+
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Author</th>
+      <th>Description</th>
+      <th colspan="2">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let book of books; index as i">
+      <td> {{i + 1}} </td>
+      <td (click)="viewProduct(book.id)">
+        <ins>{{book.title}}</ins>
+      </td>
+      <td>{{book.author}}</td>
+      <td>{{book.description}}</td>
+      <td (click)="getBook(book.id)"><i class="fa-solid fa-pen-to-square"></i></td>
+      <td (click)="deleteModal(book.id)"><i class="fa-solid fa-trash-can"></i></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div id="deleteModal" class="modal">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Delete Book</h2>
+      <span class="close" (click)="cloneDeleteModal()">&times;</span>
+
+    </div>
+    <div class="modal-body">
+      <p *ngIf="book != undefined">Are you sure to delete: {{book.title}} </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="cloneDeleteModal()" class="btn btn-primary">Cancel</button>
+      <button type="button" *ngIf="book != undefined" (click)="deleteBook(book.id)" class="btn btn-danger">Delete Product</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalHeader">Create Book</h2>
+      <span class="close" (click)="cloneModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form class="box" [formGroup]="bookForm">
+        <table>
+          <tr>
+            <th><label for="title" class="form-label">Name:</label></th>
+            <td><input class="form-control" style="width: 100%" id="title" formControlName="title" type="text"></td>
+            <td>
+              <div *ngIf="title?.invalid && (title?.dirty || title?.touched)">
+                <div *ngIf="title?.errors?.['required']">
+                  <p style="color: red">Invalid title</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th><label for="author" class="form-label">Author:</label></th>
+            <td><input class="form-control" id="author" formControlName="author" type="text"></td>
+            <td>
+              <div *ngIf="author?.invalid && (author?.dirty || author?.touched)">
+                <div *ngIf="author?.errors?.['required']">
+                  <p style="color: red">Invalid author</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th><label for="description" class="form-label">Description:</label></th>
+            <td><textarea class="form-control" id="description" formControlName="description" type="text"></textarea>
+            <td>
+              <div *ngIf="description?.invalid && (description?.dirty || description?.touched)">
+                <div *ngIf="description?.errors?.['required']">
+                  <p style="color: red">Invalid description</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button id="saveBook" type="submit" class="btn btn-primary" (click)="saveBook()">Save Book</button>
+      <button id="updateBook" type="submit" class="btn btn-primary" (click)="updateBook()">Update Book</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast">
+
+</div>
+
+
